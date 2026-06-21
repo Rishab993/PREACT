@@ -54,7 +54,7 @@ PREACT operates across five phases for any traffic event:
 
 The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset** — 8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 7.0 hackathon.
 
-Dataset: ASTRAM EVENT DATA (https://drive.google.com/file/d/1vuX3LD6cx1VEc7LQgXJGaF_MfZS15iyD/view?usp=sharing)
+Dataset: ASTRAM EVENT DATA [Gridlock 2.0 Hackathon ASTraM Dataset](https://uc.hackerearth.com/he-public-ap-south-1/Astram%20event%20data_anonymized%20-%20Astram%20event%20data_anonymizedb40ac87.csv)
 
 
 Each record contains: event type (planned/unplanned), latitude/longitude, event cause (vehicle breakdown, tree fall, road closure, others), corridor, priority (High/Medium/Low), zone, junction, start and end datetimes, resolution status, and police station.
