@@ -2,9 +2,11 @@
 
 **Police Response & Emergency Analytics Command Tool**
 
-A dual-role mobile and web application for Bengaluru Traffic Police. PREACT provides citizens with a portal to report violations, view alerts, and volunteer for traffic assistance — and gives the police command center real-time traffic monitoring, 72-hour predictive forecasting, OR-Tools-based deployment optimization, traffic simulation, and post-event learning.
+A dual-role mobile and web application for Bengaluru Traffic Police. PREACT provides citizens with a portal to report violations, view alerts, and volunteer for traffic assistance  and gives the police command center real-time traffic monitoring, 72-hour predictive forecasting, OR-Tools-based deployment optimization, traffic simulation, and post-event learning.
 
-Built for the Flipkart GRiD 7.0 Hackathon — Problem Statement: Event-Driven Congestion (Planned & Unplanned).
+Built for the Flipkart GRiD 7.0 Hackathon
+
+Problem Statement: Event-Driven Congestion (Planned & Unplanned).
 
 ---
 
@@ -42,17 +44,17 @@ PREACT addresses all three gaps.
 
 PREACT operates across five phases for any traffic event:
 
-1. **Event Intake** — Citizens report violations with photo evidence; backend scores confidence and detects duplicates; police review and approve or reject complaints
-2. **Forecasting** — Prophet model generates 72-hour zone-level severity forecasts with confidence intervals; XGBoost scores severity
-3. **Deployment** — OR-Tools optimizer computes optimal officer placement across junctions given constraints; manual override via map
-4. **Live Monitoring** — Supabase Realtime pushes alerts via WebSocket to both citizen and police clients simultaneously
-5. **Post-Event Learning** — Structured debrief captures ground truth; Shadow Ops computes regret score and congestion avoided; data is indexed for future forecast training
+1. **Event Intake** -> Citizens report violations with photo evidence; backend scores confidence and detects duplicates; police review and approve or reject complaints
+2. **Forecasting** -> Prophet model generates 72-hour zone-level severity forecasts with confidence intervals; XGBoost scores severity
+3. **Deployment** -> OR-Tools optimizer computes optimal officer placement across junctions given constraints; manual override via map
+4. **Live Monitoring** -> Supabase Realtime pushes alerts via WebSocket to both citizen and police clients simultaneously
+5. **Post-Event Learning** -> Structured debrief captures ground truth; Shadow Ops computes regret score and congestion avoided; data is indexed for future forecast training
 
 ---
 
 ## Dataset
 
-The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset** — 8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 7.0 hackathon.
+The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset**  8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 7.0 hackathon.
 
 Dataset: ASTRAM EVENT DATASET [Gridlock 2.0 Hackathon ASTraM Dataset](https://uc.hackerearth.com/he-public-ap-south-1/Astram%20event%20data_anonymized%20-%20Astram%20event%20data_anonymizedb40ac87.csv)
 
@@ -72,7 +74,7 @@ This dataset is used to:
 ## Architecture
 
 ```
-Clients (Flutter — Android / Web)
+Clients (Flutter  Android / Web)
     |
     | REST (HTTPS)
     v
@@ -113,8 +115,8 @@ Supabase Realtime → WebSocket push → both clients (bypasses REST)
 | Local Storage | shared_preferences 2.2.3 |
 | Environment | flutter_dotenv 5.1.0 |
 | Typography | google_fonts 6.2.1 |
-| ML — Forecasting | Prophet (72hr severity forecast) |
-| ML — Scoring | XGBoost (severity confidence scoring) |
+| ML Forecasting | Prophet (72hr severity forecast) |
+| ML Scoring | XGBoost (severity confidence scoring) |
 | Optimization | OR-Tools (officer deployment) |
 
 ---
@@ -246,23 +248,23 @@ flutter build web --release
 
 ### Citizen Portal
 
-- **Report Complaint** — violation type, zone, description, photo upload (JPG/PNG/WebP, max 5MB), GPS validation, backend confidence scoring and duplicate detection
-- **View Live Alerts** — traffic, event, emergency, weather, road work alerts with severity indicators; auto-refresh every 15 seconds
-- **Volunteer Signup** — citizen ID, junction, date, time slot; status pending until police approval
-- **Voice Assistant** — available on all screens via FAB; microphone or text input; English and Kannada; TTS output
+- **Report Complaint**  violation type, zone, description, photo upload (JPG/PNG/WebP, max 5MB), GPS validation, backend confidence scoring and duplicate detection
+- **View Live Alerts**  traffic, event, emergency, weather, road work alerts with severity indicators; auto-refresh every 15 seconds
+- **Volunteer Signup**  citizen ID, junction, date, time slot; status pending until police approval
+- **Voice Assistant**  available on all screens via FAB; microphone or text input; English and Kannada; TTS output
 
 ### Police Command Center
 
-- **Dashboard** — active events, officers deployed, open complaints, active alerts KPIs; AI insights carousel; live Bengaluru map with zone severity polygons; zone sparklines; alert feed
-- **Create Alerts** — title, zone, category, severity, message in English and Kannada, issuer
-- **Complaint Validation** — tab view (Pending / Valid / Rejected / All); filters by zone, violation type, confidence score; approve or reject with reason
-- **Volunteer Management** — tab view (Pending / Approved / Rejected); approve or reject signups
-- **72hr Forecast** — Prophet-generated zone-level severity graph with 80% confidence interval; zone selector; all-zones grid with severity gauges
-- **Deployment Planner** — auto-optimize via OR-Tools; manual assignment via map tap; heatmap toggle; results panel with junction assignments
-- **Traffic Simulator** — junction officer sliders (0-10); barricade toggles; real-time severity curves; save and load scenarios
-- **Shadow Ops** — PREACT plan vs actual deployment bar chart; regret score gauge; congestion avoided metric; similar past events
-- **Ground Truth / Debrief** — junction stress sliders; bottleneck cause chips; actual officer count; plan-followed toggle; notes field
-- **Memory** — full-text historical event search; filters by zone, event type, attendance; event detail view; insight panel
+- **Dashboard**  active events, officers deployed, open complaints, active alerts KPIs; AI insights carousel; live Bengaluru map with zone severity polygons; zone sparklines; alert feed
+- **Create Alerts**  title, zone, category, severity, message in English and Kannada, issuer
+- **Complaint Validation**  tab view (Pending / Valid / Rejected / All); filters by zone, violation type, confidence score; approve or reject with reason
+- **Volunteer Management**  tab view (Pending / Approved / Rejected); approve or reject signups
+- **72hr Forecast**  Prophet-generated zone-level severity graph with 80% confidence interval; zone selector; all-zones grid with severity gauges
+- **Deployment Planner**  auto-optimize via OR-Tools; manual assignment via map tap; heatmap toggle; results panel with junction assignments
+- **Traffic Simulator**  junction officer sliders (0-10); barricade toggles; real-time severity curves; save and load scenarios
+- **Shadow Ops**  PREACT plan vs actual deployment bar chart; regret score gauge; congestion avoided metric; similar past events
+- **Ground Truth / Debrief**  junction stress sliders; bottleneck cause chips; actual officer count; plan-followed toggle; notes field
+- **Memory**  full-text historical event search; filters by zone, event type, attendance; event detail view; insight panel
 
 ---
 
@@ -305,4 +307,4 @@ The app supports two roles selectable at launch. A role switcher button is avail
 
 ---
 
-*Built for Bengaluru Traffic Police. Flipkart GRiD 7.0 — Event-Driven Congestion track.*
+*Built for Bengaluru Traffic Police. Flipkart GRiD 7.0  Event-Driven Congestion track.*
