@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="PREACT — Proactive Resource Allocation & Event-Adaptive Command Tool">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="PREACT">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>PREACT</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #020B1F;
+    }
+    #preact-splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #020B1F;
+      color: #FFFFFF;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      z-index: 9999;
+      animation: preact-fade-in 0.45s ease-out;
+      padding: 24px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    #preact-splash img {
+      width: 200px;
+      height: 112px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      margin-bottom: 20px;
+    }
+    #preact-splash h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #FFFFFF;
+    }
+    #preact-splash p {
+      margin: 0;
+      max-width: 320px;
+      color: #5B8DEF;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    @keyframes preact-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+
+  <script src="https://github.com/corbado/flutter-passkeys/releases/download/2.4.0/bundle.js"></script>
+</head>
+<body>
+  <!-- Active HTML startup splash (shown before Flutter loads) -->
+  <div id="preact-splash" aria-live="polite" aria-busy="true">
+    <img src="assets/images/preact_logo.png" alt="PREACT logo" />
+    <h1>PREACT</h1>
+    <p>Proactive Resource Allocation &amp; Event-Adaptive Command Tool</p>
+  </div>
+
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    function removePreactSplash() {
+      var splash = document.getElementById('preact-splash');
+      if (splash) splash.remove();
+    }
+    window.addEventListener('flutter-first-frame', removePreactSplash);
+  </script>
+</body>
+</html>
+
