@@ -307,4 +307,4 @@ The app supports two roles selectable at launch. A role switcher button is avail
 
 ---
 
-*Built for Bengaluru Traffic Police. Flipkart GRiD 7.0  Event-Driven Congestion track.*
+*Built for Bengaluru Traffic Police. Flipkart GRIDLOCK 2.0  Event-Driven Congestion Congestion track.*
