@@ -204,8 +204,8 @@ The `.env` file is declared as an asset in `pubspec.yaml` and must be present be
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-org/preact_app.git
-cd preact_app
+git clone https://github.com/Rishab993/PREACT.git
+cd PREACT
 ```
 
 Install dependencies:
