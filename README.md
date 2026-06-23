@@ -284,7 +284,7 @@ The Flutter app is pre-configured to point to this deployment. No local backend 
 
 ---
 
-### 🛠️ Local Backend Setup (Optional)
+### Local Backend Setup (Optional)
 
 If you want to run the backend locally:
 
