@@ -4,7 +4,7 @@
 
 A dual-role mobile and web application for Bengaluru Traffic Police. PREACT provides citizens with a portal to report violations, view alerts, and volunteer for traffic assistance  and gives the police command center real-time traffic monitoring, 72-hour predictive forecasting, OR-Tools-based deployment optimization, traffic simulation, and post-event learning.
 
-Built for the Flipkart GRiD 7.0 Hackathon
+Built for the Flipkart GRiD 2.0 Hackathon
 
 Problem Statement: Event-Driven Congestion (Planned & Unplanned).
 
@@ -54,7 +54,7 @@ PREACT operates across five phases for any traffic event:
 
 ## Dataset
 
-The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset**  8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 7.0 hackathon.
+The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset**  8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 2.0 hackathon.
 
 Dataset: ASTRAM EVENT DATASET [Gridlock 2.0 Hackathon ASTraM Dataset](https://uc.hackerearth.com/he-public-ap-south-1/Astram%20event%20data_anonymized%20-%20Astram%20event%20data_anonymizedb40ac87.csv)
 
