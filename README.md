@@ -1,12 +1,11 @@
 # PREACT
 
-**Police Response & Emergency Analytics Command Tool**
+**Proactive Resource Allocation & Event-Adaptive Command Tool**
 
-A dual-role mobile and web application for Bengaluru Traffic Police. PREACT provides citizens with a portal to report violations, view alerts, and volunteer for traffic assistance  and gives the police command center real-time traffic monitoring, 72-hour predictive forecasting, OR-Tools-based deployment optimization, traffic simulation, and post-event learning.
+A dual-role mobile and web application for Bengaluru Traffic Police. PREACT provides citizens with a portal to report violations, view alerts, and volunteer for traffic assistance — and gives the police command center real-time traffic monitoring, 72-hour predictive forecasting, OR-Tools-based deployment optimization, traffic simulation, and post-event learning.
 
-Built for the Flipkart GRiD 2.0 Hackathon
-
-Problem Statement: Event-Driven Congestion (Planned & Unplanned).
+Built for the **Flipkart GRIDLOCK 2.0 Hackathon**
+Problem Statement: **Event-Driven Congestion (Planned & Unplanned)**
 
 ---
 
@@ -22,6 +21,7 @@ Problem Statement: Event-Driven Congestion (Planned & Unplanned).
 - [Environment Setup](#environment-setup)
 - [Installation](#installation)
 - [Running the App](#running-the-app)
+- [Backend Setup](#backend-setup)
 - [Features](#features)
 - [API Reference](#api-reference)
 - [Roles](#roles)
@@ -44,20 +44,19 @@ PREACT addresses all three gaps.
 
 PREACT operates across five phases for any traffic event:
 
-1. **Event Intake** -> Citizens report violations with photo evidence; backend scores confidence and detects duplicates; police review and approve or reject complaints
-2. **Forecasting** -> Prophet model generates 72-hour zone-level severity forecasts with confidence intervals; XGBoost scores severity
-3. **Deployment** -> OR-Tools optimizer computes optimal officer placement across junctions given constraints; manual override via map
-4. **Live Monitoring** -> Supabase Realtime pushes alerts via WebSocket to both citizen and police clients simultaneously
-5. **Post-Event Learning** -> Structured debrief captures ground truth; Shadow Ops computes regret score and congestion avoided; data is indexed for future forecast training
+1. **Event Intake** → Citizens report violations with photo evidence; backend scores confidence and detects duplicates; police review and approve or reject complaints
+2. **Forecasting** → Prophet model generates 72-hour zone-level severity forecasts with confidence intervals; XGBoost scores severity
+3. **Deployment** → OR-Tools optimizer computes optimal officer placement across junctions given constraints; manual override via map
+4. **Live Monitoring** → Supabase Realtime pushes alerts via WebSocket to both citizen and police clients simultaneously
+5. **Post-Event Learning** → Structured debrief captures ground truth; Shadow Ops computes regret score and congestion avoided; data is indexed for future forecast training
 
 ---
 
 ## Dataset
 
-The predictive forecasting and institutional memory features are built on the **Astram anonymized event dataset**  8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRiD 2.0 hackathon.
+The predictive forecasting and institutional memory features are built on the **ASTraM anonymized event dataset** — 8,204 real traffic incident records from Bengaluru, provided as part of the Flipkart GRIDLOCK 2.0 hackathon.
 
-Dataset: ASTRAM EVENT DATASET [Gridlock 2.0 Hackathon ASTraM Dataset](https://uc.hackerearth.com/he-public-ap-south-1/Astram%20event%20data_anonymized%20-%20Astram%20event%20data_anonymizedb40ac87.csv)
-
+Dataset: [Gridlock 2.0 Hackathon ASTraM Dataset](https://uc.hackerearth.com/he-public-ap-south-1/Astram%20event%20data_anonymized%20-%20Astram%20event%20data_anonymizedb40ac87.csv)
 
 Each record contains: event type (planned/unplanned), latitude/longitude, event cause (vehicle breakdown, tree fall, road closure, others), corridor, priority (High/Medium/Low), zone, junction, start and end datetimes, resolution status, and police station.
 
@@ -67,14 +66,12 @@ This dataset is used to:
 - Seed institutional memory for similar-event retrieval via `/api/memory/similar/:eventId`
 - Provide historical context in Shadow Ops and Ground Truth analysis screens
 
-
-
 ---
 
 ## Architecture
 
 ```
-Clients (Flutter  Android / Web)
+Clients (Flutter — Android / Web)
     |
     | REST (HTTPS)
     v
@@ -117,14 +114,19 @@ Supabase Realtime → WebSocket push → both clients (bypasses REST)
 | Typography | google_fonts 6.2.1 |
 | ML Forecasting | Prophet (72hr severity forecast) |
 | ML Scoring | XGBoost (severity confidence scoring) |
-| Optimization | OR-Tools (officer deployment) |
+| Optimization | OR-Tools CP-SAT (officer deployment) |
+| Anomaly Detection | IsolationForest (unplanned gathering detection) |
+| Causal Analysis | DoWhy (counterfactual regret scoring) |
+| Backend Framework | FastAPI (Python) |
+| Background Jobs | APScheduler |
+| Database | Supabase (PostgreSQL + PostGIS) |
 
 ---
 
 ## Project Structure
 
 ```
-preact_app/
+PREACT/
 ├── lib/
 │   ├── main.dart
 │   ├── preact_app.dart
@@ -154,6 +156,28 @@ preact_app/
 │   │             complaint_image,glass_card,kpi_tile,lazy_indexed_stack,
 │   │             officer_card,severity_gauge,skeleton_loader}.dart
 │   └── providers/{app_providers,data_providers}.dart
+├── backend/
+│   ├── main.py
+│   ├── scheduler.py
+│   ├── requirements.txt
+│   ├── routers/
+│   │   ├── health.py
+│   │   ├── events.py
+│   │   ├── forecast.py
+│   │   ├── deployment.py
+│   │   ├── simulate.py
+│   │   ├── complaints.py
+│   │   ├── alerts.py
+│   │   ├── counterfactual.py
+│   │   ├── ground_truth.py
+│   │   ├── volunteer.py
+│   │   ├── memory.py
+│   │   └── chat.py
+│   ├── services/
+│   │   ├── forecast_service.py
+│   │   ├── anomaly_service.py
+│   │   └── fcm_service.py
+│   └── models/
 ├── android/
 ├── web/
 ├── assets/fonts/ & images/preact_logo.png
@@ -193,7 +217,7 @@ API_BASE_URL=your_backend_api_base_url
 
 **Where to find these values:**
 - `SUPABASE_URL` and `SUPABASE_ANON_KEY`: Supabase dashboard → Project Settings → API
-- `API_BASE_URL`: your deployed backend URL (e.g. `https://api.yourproject.com`)
+- `API_BASE_URL`: The live backend is already deployed — use `https://preact-gcbu.onrender.com`
 
 The `.env` file is declared as an asset in `pubspec.yaml` and must be present before running the app. It is listed in `.gitignore` and is never committed.
 
@@ -208,7 +232,7 @@ git clone https://github.com/Rishab993/PREACT.git
 cd PREACT
 ```
 
-Install dependencies:
+Install Flutter dependencies:
 
 ```bash
 flutter pub get
@@ -244,27 +268,106 @@ flutter build web --release
 
 ---
 
+## Backend Setup
+
+The PREACT backend is a FastAPI server running 5 ML models (Prophet, XGBoost, IsolationForest, OR-Tools CP-SAT, DoWhy) in a single process. It connects to Supabase for the database and runs 3 APScheduler background jobs (forecast every 6h, anomaly detection every 30min, post-event officer nudge every 15min).
+
+###  Live Deployment
+
+The backend is live on Render and ready to use without any local setup:
+
+> **Base URL:** `https://preact-gcbu.onrender.com`
+> **Swagger Docs:** [https://preact-gcbu.onrender.com/docs](https://preact-gcbu.onrender.com/docs)
+> **ReDoc:** [https://preact-gcbu.onrender.com/redoc](https://preact-gcbu.onrender.com/redoc)
+
+The Flutter app is pre-configured to point to this deployment. No local backend setup is needed to run the app.
+
+---
+
+### 🛠️ Local Backend Setup (Optional)
+
+If you want to run the backend locally:
+
+#### Prerequisites
+- Python 3.10+
+- A Supabase project (free tier works)
+
+#### 1. Navigate to the backend folder
+
+```bash
+cd backend
+```
+
+#### 2. Create and activate a virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate        # macOS / Linux
+venv\Scripts\activate           # Windows
+```
+
+#### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+>  `prophet` requires `pystan` which may take a few minutes to compile on first install. This is expected.
+
+#### 4. Set up environment variables
+
+Create a `.env` file inside the `backend/` directory:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_SERVICE_KEY=your_supabase_service_role_key
+```
+
+>  Use the **Service Role Key** (not the Anon Key) for the backend — it needs full DB access to run the ML pipeline and scheduler jobs. Find it in Supabase dashboard → Project Settings → API → `service_role` key.
+
+#### 5. Start the server
+
+```bash
+uvicorn main:app --reload
+```
+
+The API will be available at `http://localhost:8000`
+Swagger docs at `http://localhost:8000/docs`
+
+#### 6. What happens on startup
+
+On launch, the server automatically:
+1. Connects to Supabase using your credentials
+2. Fits the **IsolationForest** model on historical event data
+3. Starts **APScheduler** with 3 background jobs:
+   - Forecast pipeline — runs every **6 hours**
+   - Anomaly detection — runs every **30 minutes**
+   - Post-event officer nudge (FCM push) — runs every **15 minutes**
+4. Registers all **12 API routers**
+
+---
+
 ## Features
 
 ### Citizen Portal
 
-- **Report Complaint**  violation type, zone, description, photo upload (JPG/PNG/WebP, max 5MB), GPS validation, backend confidence scoring and duplicate detection
-- **View Live Alerts**  traffic, event, emergency, weather, road work alerts with severity indicators; auto-refresh every 15 seconds
-- **Volunteer Signup**  citizen ID, junction, date, time slot; status pending until police approval
-- **Voice Assistant**  available on all screens via FAB; microphone or text input; English and Kannada; TTS output
+- **Report Complaint** — violation type, zone, description, photo upload (JPG/PNG/WebP, max 5MB), GPS validation, backend confidence scoring and duplicate detection
+- **View Live Alerts** — traffic, event, emergency, weather, road work alerts with severity indicators; auto-refresh every 15 seconds
+- **Volunteer Signup** — citizen ID, junction, date, time slot; status pending until police approval
+- **Voice Assistant** — available on all screens via FAB; microphone or text input; English and Kannada; TTS output
 
 ### Police Command Center
 
-- **Dashboard**  active events, officers deployed, open complaints, active alerts KPIs; AI insights carousel; live Bengaluru map with zone severity polygons; zone sparklines; alert feed
-- **Create Alerts**  title, zone, category, severity, message in English and Kannada, issuer
-- **Complaint Validation**  tab view (Pending / Valid / Rejected / All); filters by zone, violation type, confidence score; approve or reject with reason
-- **Volunteer Management**  tab view (Pending / Approved / Rejected); approve or reject signups
-- **72hr Forecast**  Prophet-generated zone-level severity graph with 80% confidence interval; zone selector; all-zones grid with severity gauges
-- **Deployment Planner**  auto-optimize via OR-Tools; manual assignment via map tap; heatmap toggle; results panel with junction assignments
-- **Traffic Simulator**  junction officer sliders (0-10); barricade toggles; real-time severity curves; save and load scenarios
-- **Shadow Ops**  PREACT plan vs actual deployment bar chart; regret score gauge; congestion avoided metric; similar past events
-- **Ground Truth / Debrief**  junction stress sliders; bottleneck cause chips; actual officer count; plan-followed toggle; notes field
-- **Memory**  full-text historical event search; filters by zone, event type, attendance; event detail view; insight panel
+- **Dashboard** — active events, officers deployed, open complaints, active alerts KPIs; AI insights carousel; live Bengaluru map with zone severity polygons; zone sparklines; alert feed
+- **Create Alerts** — title, zone, category, severity, message in English and Kannada, issuer
+- **Complaint Validation** — tab view (Pending / Valid / Rejected / All); filters by zone, violation type, confidence score; approve or reject with reason
+- **Volunteer Management** — tab view (Pending / Approved / Rejected); approve or reject signups
+- **72hr Forecast** — Prophet-generated zone-level severity graph with 80% confidence interval; zone selector; all-zones grid with severity gauges
+- **Deployment Planner** — auto-optimize via OR-Tools CP-SAT; manual assignment via map tap; heatmap toggle; results panel with junction assignments
+- **Traffic Simulator** — junction officer sliders (0–10); barricade toggles; real-time severity curves; save and load scenarios
+- **Shadow Ops** — PREACT plan vs actual deployment bar chart; regret score gauge; congestion avoided metric; similar past events
+- **Ground Truth / Debrief** — junction stress sliders; bottleneck cause chips; actual officer count; plan-followed toggle; notes field
+- **Memory** — full-text historical event search; filters by zone, event type, attendance; event detail view; insight panel
 
 ---
 
@@ -294,6 +397,8 @@ flutter build web --release
 | GET | `/api/memory/search` | Full-text search past events |
 | GET | `/api/memory/similar/:eventId` | Find similar past events |
 
+Full interactive documentation: [https://preact-gcbu.onrender.com/docs](https://preact-gcbu.onrender.com/docs)
+
 ---
 
 ## Roles
@@ -307,4 +412,4 @@ The app supports two roles selectable at launch. A role switcher button is avail
 
 ---
 
-*Built for Bengaluru Traffic Police. Flipkart GRIDLOCK 2.0  Event-Driven Congestion Congestion track.*
+*Built for Bengaluru Traffic Police. Flipkart GRIDLOCK 2.0 — Event-Driven Congestion track.*
