@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+httpx
+supabase
+apscheduler
+prophet
+xgboost
+scikit-learn
+opencv-python-headless
+ortools
+dowhy
+pandas
+numpy
+python-multipart
+python-dotenv
